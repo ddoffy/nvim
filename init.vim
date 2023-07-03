@@ -1,6 +1,3 @@
-for f in split(glob('~/.config/nvim/configs/*.vim'), '\n')
-   exe 'source' f
-endfor
 
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 Plug 'morhetz/gruvbox'
@@ -41,8 +38,8 @@ Plug 'easymotion/vim-easymotion'
 nmap <silent> gw <Plug>(easymotion-overwin-f2) 
 let g:EasyMotion_smartcase = 1
 
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-" Plug 'Shougo/deoplete.nvim'
+Plug 'honza/vim-snippets'
+"Plug 'Shougo/deoplete.nvim'
 Plug 'Valloric/YouCompleteMe'
 Plug 'Chiel92/vim-autoformat'
 Plug 'scrooloose/nerdtree'
@@ -53,7 +50,39 @@ Plug 'billyvg/node-host', { 'do': 'npm install' }
 Plug 'tpope/vim-commentary'
 Plug 'pangloss/vim-javascript'
 Plug 'evanleck/vim-svelte'
-Plug 'othree/html5.vim'
+
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'ryanoasis/vim-devicons'
+Plug 'airblade/vim-gitgutter'
+Plug 'mkitt/tabline.vim'
+Plug 'tpope/vim-commentary'
+
+" Go lang setup
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' } " https://github.com/fatih/vim-go
+Plug 'neoclide/coc.nvim', {'branch': 'release'}     " https://github.com/neoclide/coc.nvim
+Plug 'SirVer/ultisnips'  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 call plug#end()
@@ -212,4 +241,100 @@ nmap <leader>0 :set invnumber<CR>
 " http://stackoverflow.com/questions/7513380/vim-change-x-firunction-to-delete-buffer-instead-of-save-quit
 cnoreabbrev <expr> q getcmdtype() == ":" && (getcmdline() == 'q' && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) > 1) ? 'bd' : 'q'
 
+" This is the default option:
+"   - Preview window on the right with 50% width
+"   - CTRL-/ will toggle preview window.
+" - Note that this array is passed as arguments to fzf#vim#with_preview function.
+" - To learn more about preview window options, see `--preview-window` section of `man fzf`.
+let g:fzf_preview_window = ['right,50%', 'ctrl-/']
 
+" Preview window is hidden by default. You can toggle it with ctrl-/.
+" It will show on the right with 50% width, but if the width is smaller
+" than 70 columns, it will show above the candidate list
+let g:fzf_preview_window = ['hidden,right,50%,<70(up,40%)', 'ctrl-/']
+
+" Empty value to disable preview window altogether
+let g:fzf_preview_window = []
+
+" fzf.vim needs bash to display the preview window.
+" On Windows, fzf.vim will first see if bash is in $PATH, then if
+" Git bash (C:\Program Files\Git\bin\bash.exe) is available.
+" If you want it to use a different bash, set this variable.
+" let g:fzf_preview_bash = 'C:\Git\bin\bash.exe'
+
+
+
+set encoding=UTF-8
+
+" vim-gitgutter used to do this by default:
+highlight! link SignColumn LineNr
+
+" or you could do this:
+"highlight SignColumn guibg=whatever ctermbg=whatever
+
+" Vim 7.4.2201
+set signcolumn=yes
+let g:gitgutter_sign_allow_clobber = 1
+
+let g:tablineclosebutton=1
+
+
+
+let mapleader = ","
+
+filetype on
+filetype indent on
+filetype plugin on
+
+set encoding=UTF-8
+
+syntax on
+set nocompatible
+set hlsearch
+set number relativenumber
+set laststatus=2
+set vb
+set ruler
+set spelllang=en_us
+set autoindent
+set colorcolumn=80
+set mouse=a
+set clipboard=unnamed
+set noscrollbind
+set wildmenu
+set autochdir
+
+
+
+hi Search cterm=NONE ctermfg=black ctermbg=red
+
+" No more Arrow Keys, deal with it
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+
+" netrw
+
+nnoremap - :Explore<CR>
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+autocmd FileType netrw setl bufhidden=delete
+
+
+
+" ctrlp
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
+" vim-gitgutter
+
+set updatetime=500
+
+"-- vim-gitgutter END
+
+" papercolor-theme
+
+set termguicolors
+set background=dark

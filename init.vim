@@ -11,6 +11,9 @@ Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'OmniSharp/omnisharp-roslyn'
 Plug 'neovim/nvim-lspconfig'
+Plug 'OmniSharp/Omnisharp-vim'
+Plug 'nickspoons/vim-sharpenup'
+Plug 'vim-syntastic/syntastic'
 
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -140,7 +143,7 @@ call plug#end()
     end
   end
 
-  local servers = {'pyright', 'gopls', 'rust_analyzer', 'sqlls'}
+  local servers = {'pyright', 'gopls', 'rust_analyzer', 'sqlls' }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
       on_attach = on_attach,
@@ -150,6 +153,7 @@ call plug#end()
   local mason = require("mason")
 
   mason.setup()
+
 
 
 EOF
@@ -482,46 +486,46 @@ set splitbelow
 " Get Code Issues and syntax errors
 let g:syntastic_cs_checkers = ['syntax', 'semantic', 'issues']
 " If you are using the omnisharp-roslyn backend, use the following
-" let g:syntastic_cs_checkers = ['code_checker']
-augroup omnisharp_commands
-    autocmd!
-
-    "Set autocomplete function to OmniSharp (if not using YouCompleteMe completion plugin)
-    autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
-
-    " Synchronous build (blocks Vim)
-    "autocmd FileType cs nnoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
-    " Builds can also run asynchronously with vim-dispatch installed
-    autocmd FileType cs nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
-    " automatic syntax check on events (TextChanged requires Vim 7.4)
-    autocmd BufEnter,TextChanged,InsertLeave *.cs SyntasticCheck
-
-    " Automatically add new cs files to the nearest project on save
-    autocmd BufWritePost *.cs call OmniSharp#AddToProject()
-
-    "show type information automatically when the cursor stops moving
-    autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
-
-    "The following commands are contextual, based on the current cursor position.
-
-    autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
-    autocmd FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
-    autocmd FileType cs nnoremap <leader>ft :OmniSharpFindType<cr>
-    autocmd FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
-    autocmd FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
-    "finds members in the current buffer
-    autocmd FileType cs nnoremap <leader>fm :OmniSharpFindMembers<cr>
-    " cursor can be anywhere on the line containing an issue
-    autocmd FileType cs nnoremap <leader>x  :OmniSharpFixIssue<cr>
-    autocmd FileType cs nnoremap <leader>fx :OmniSharpFixUsings<cr>
-    autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
-    autocmd FileType cs nnoremap <leader>dc :OmniSharpDocumentation<cr>
-    "navigate up by method/property/field
-    autocmd FileType cs nnoremap <C-K> :OmniSharpNavigateUp<cr>
-    "navigate down by method/property/field
-    autocmd FileType cs nnoremap <C-J> :OmniSharpNavigateDown<cr>
-
-augroup END
+let g:syntastic_cs_checkers = ['code_checker']
+"avim-syntastic/syntastiugroup omnisharp_commands
+"    autocmd!
+"
+"    "Set autocomplete function to OmniSharp (if not using YouCompleteMe completion plugin)
+"    autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+"
+"    " Synchronous build (blocks Vim)
+"    "autocmd FileType cs nnoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
+"    " Builds can also run asynchronously with vim-dispatch installed
+"    autocmd FileType cs nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
+"    " automatic syntax check on events (TextChanged requires Vim 7.4)
+"    autocmd BufEnter,TextChanged,InsertLeave *.cs SyntasticCheck
+"
+"    " Automatically add new cs files to the nearest project on save
+"    autocmd BufWritePost *.cs call OmniSharp#AddToProject()
+"
+"    "show type information automatically when the cursor stops moving
+"    autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+"
+"    "The following commands are contextual, based on the current cursor position.
+"
+"    autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
+"    autocmd FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
+"    autocmd FileType cs nnoremap <leader>ft :OmniSharpFindType<cr>
+"    autocmd FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
+"    autocmd FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
+"    "finds members in the current buffer
+"    autocmd FileType cs nnoremap <leader>fm :OmniSharpFindMembers<cr>
+"    " cursor can be anywhere on the line containing an issue
+"    autocmd FileType cs nnoremap <leader>x  :OmniSharpFixIssue<cr>
+"    autocmd FileType cs nnoremap <leader>fx :OmniSharpFixUsings<cr>
+"    autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
+"    autocmd FileType cs nnoremap <leader>dc :OmniSharpDocumentation<cr>
+"    "navigate up by method/property/field
+"    autocmd FileType cs nnoremap <C-K> :OmniSharpNavigateUp<cr>
+"    "navigate down by method/property/field
+"    autocmd FileType cs nnoremap <C-J> :OmniSharpNavigateDown<cr>
+"
+"augroup END
 
 
 " this setting controls how long to wait (in ms) before fetching type / symbol information.
@@ -643,3 +647,60 @@ endif "end of coc.nvim
 " Add all your plugins here 
 
 " All of your Plugins must be added before the following line
+
+
+"vim.cmd('packadd nvim-lspconfig')
+"require'nvim_lsp'.gopls.setup{}
+
+"vim.lsp.start({
+"  name = 'OmniSharp',
+"  cmd = {''},
+"  root_dir = vim.fs.dirname(vim.fs.find({'setup.py', 'pyproject.toml'}, { upward = true })[1]),
+"})
+"
+" Use the stdio version of OmniSharp-roslyn - this is the default
+"let g:OmniSharp_server_stdio = 1
+
+let g:ale_linters = {
+\ 'cs': ['OmniSharp']
+\}
+
+let g:syntastic_cs_checkers = ['code_checker']
+
+let g:OmniSharp_selector_ui = 'fzf'    " Use fzf
+let g:OmniSharp_selector_ui = 'clap'   " Use vim-clap
+let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
+let g:OmniSharp_selector_ui = 'unite'  " Use unite.vim
+let g:OmniSharp_selector_ui = ''       " Use vim - command line, quickfix etc.
+
+let g:OmniSharp_selector_findusages = 'fzf'
+let g:OmniSharp_selector_findusages = 'clap'
+
+let g:OmniSharp_highlighting = 0
+let g:OmniSharp_highlight_groups = {
+\ 'Comment': 'NonText',
+\ 'XmlDocCommentName': 'Identifier',
+\ 'XmlDocCommentText': 'NonText'
+\}
+
+" IDE0010: Populate switch - display in ALE as `Info`
+" IDE0055: Fix formatting - display in ALE as `Warning` style error
+" CS8019: Duplicate of IDE0005
+" RemoveUnnecessaryImportsFixable: Generic warning that an unused using exists
+let g:OmniSharp_diagnostic_overrides = {
+\ 'IDE0010': {'type': 'I'},
+\ 'IDE0055': {'type': 'W', 'subtype': 'Style'},
+\ 'CS8019': {'type': 'None'},
+\ 'RemoveUnnecessaryImportsFixable': {'type': 'None'}
+\}
+
+let g:OmniSharp_diagnostic_showid = 1
+
+let g:OmniSharp_diagnostic_exclude_paths = [
+\ 'obj\\',
+\ '[Tt]emp\\',
+\ '\.nuget\\',
+\ '\<AssemblyInfo\.cs\>'
+\]
+
+

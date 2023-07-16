@@ -1,5 +1,31 @@
 
+" We start by installing Vim plugin manager to manage plugins.
+" A Lot of customizations doen here.
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
+Plug 'antoinemadec/FixCursorHold.nvim'
+Plug 'preservim/nerdtree'
+Plug 'OmniSharp/omnisharp-vim'
+Plug 'flazz/vim-colorschemes'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+"Plug 'ervandew/supertab'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'puremourning/vimspector'
+Plug 'prettier/vim-prettier', { 'do': 'npm install' , 'branch' : 'release/1.x' }
+Plug 'dense-analysis/ale'
+"Fuzzy Search
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'valloric/MatchTagAlways'
+Plug 'jiangmiao/auto-pairs'
+
+
 Plug 'morhetz/gruvbox'
 Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdtree'
@@ -9,11 +35,125 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
 Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
 Plug 'kyazdani42/nvim-tree.lua'
-Plug 'OmniSharp/omnisharp-roslyn'
 Plug 'neovim/nvim-lspconfig'
-Plug 'OmniSharp/Omnisharp-vim'
+Plug 'OmniSharp/omnisharp-vim'
 Plug 'nickspoons/vim-sharpenup'
 Plug 'vim-syntastic/syntastic'
+Plug 'kabouzeid/nvim-lspinstall'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+
+" {{{
+" Mappings, code-actions available flag and statusline integration
+Plug 'nickspoons/vim-sharpenup'
+
+" Linting/error highlighting
+Plug 'dense-analysis/ale'
+
+" Vim FZF integration, used as OmniSharp selector
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+
+" Autocompletion
+Plug 'prabirshrestha/asyncomplete.vim'
+
+" Colorscheme
+Plug 'gruvbox-community/gruvbox'
+
+" Statusline
+Plug 'itchyny/lightline.vim'
+Plug 'shinchu/lightline-gruvbox.vim'
+Plug 'maximbaz/lightline-ale'
+
+
+Plug 'Shougo/unite.vim'
+
+" {{{
+" Plug 'ervandew/supertab'
+" }}}
+
+" UltiSnips {{{
+" Track the engine.
+
+
+Plug 'SirVer/ultisnips'
+
+" Snippets are separated from the engine. Add this if you want them:
+Plug 'honza/vim-snippets'
+
+" Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
+" - https://github.com/Valloric/YouCompleteMe
+" - https://github.com/nvim-lua/completion-nvim
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+" }}}
+
+
+" vim for OmniSharp {{{
+
+"Plug 'OmniSharp/omnisharp-vim'
+
+" Mappings, code-actions available flag and statusline integration
+Plug 'nickspoons/vim-sharpenup'
+
+" Linting/error highlighting
+Plug 'dense-analysis/ale'
+
+" Vim FZF integration, used as OmniSharp selector
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+
+" Autocompletion
+Plug 'prabirshrestha/asyncomplete.vim'
+
+" Colorscheme
+Plug 'gruvbox-community/gruvbox'
+
+" Statusline
+Plug 'itchyny/lightline.vim'
+Plug 'shinchu/lightline-gruvbox.vim'
+Plug 'maximbaz/lightline-ale'
+
+
+
+" }}}
+"
+" add this line to your .vimrc file
+Plug 'mattn/emmet-vim'
+" {{{
+"
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+
+" enable ncm2 for all buffers
+" autocmd BufEnter * call ncm2#enable_for_buffer()
+
+" IMPORTANT: :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
+
+" NOTE: you need to install completion sources to get completions. Check
+" our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+
+" }}}
+
+" deoplete {
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
+" }
 
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -42,8 +182,8 @@ nmap <silent> gw <Plug>(easymotion-overwin-f2)
 let g:EasyMotion_smartcase = 1
 
 Plug 'honza/vim-snippets'
-"Plug 'Shougo/deoplete.nvim'
-Plug 'Valloric/YouCompleteMe'
+Plug 'Shougo/deoplete.nvim'
+Plug 'ycm-core/YouCompleteMe'
 Plug 'Chiel92/vim-autoformat'
 Plug 'scrooloose/nerdtree'
 Plug 'terryma/vim-multiple-cursors'
@@ -79,8 +219,26 @@ Plug 'williamboman/mason.nvim', { 'do': ':MasonUpdate' }
 
 
 
+" {{
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" }}
 
-
+"" VimClap {{{
+"" Build the Rust binary if `cargo` exists on your system.
+"Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+"
+"" The bang version will try to download the prebuilt binary if `cargo` does not exist.
+"Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+"
+"" `:Clap install-binary[!]` will always try to compile the binary locally.
+"" If you do care about the disk used for the compilation, use the way of force download,
+"" which will directly download the prebuilt binary even if `cargo` is available.
+"Plug 'liuchengxu/vim-clap', { 'do': { -> clap#installer#force_download() } }
+"
+"" `:Clap install-binary[!]` will run using the terminal feature which is inherently async.
+"" If you don't want that and hope to run the hook synchorously:
+"Plug 'liuchengxu/vim-clap', { 'do': has('win32') ? 'cargo build --release' : 'make' }
+"" }}}
 
 
 
@@ -92,7 +250,7 @@ Plug 'williamboman/mason.nvim', { 'do': ':MasonUpdate' }
 call plug#end()
 
 " -------------------- LSP ---------------------------------
-:lua << EOF
+lua << EOF
   local nvim_lsp = require('lspconfig')
 
   local on_attach = function(client, bufnr)
@@ -154,6 +312,8 @@ call plug#end()
 
   mason.setup()
 
+  require("plugins/plugins")
+
 
 
 EOF
@@ -214,7 +374,7 @@ set hlsearch                    " Highlight found searches
 set ignorecase                  " Search case insensitive...
 set smartcase                   " ... but not when search pattern contains upper case characters
 set autoindent
-set tabstop=4 shiftwidth=4 expandtab
+set tabstop=2 shiftwidth=2 expandtab
 set gdefault            " Use 'g' flag by default with :s/foo/bar/.
 set magic               " Use 'magic' patterns (extended regular expressions).
 
@@ -240,15 +400,15 @@ let g:session_default_to_last = 1
 nmap <Space> <PageDown>
 vmap <BS> x
 
-" cd ~/.config/nvim/spell
-" wget http://ftp.vim.org/vim/runtime/spell/pt.utf-8.spl
-" set spell spelllang=pt_pt
-" zg to add word to word list
-" zw to reverse
-" zug to remove word from word list
-" z= to get list of possibilities
-" set spellfile=~/.config/nvim/spellfile.add
-set nospell
+"cd ~/.config/nvim/spell
+"wget http://ftp.vim.org/vim/runtime/spell/pt.utf-8.spl
+"set spell spelllang=pt_pt
+"zg to add word to word list
+"zw to reverse
+"zug to remove word from word list
+"z= to get list of possibilities
+"set spellfile=~/.config/nvim/spellfile.add
+"set nospell
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
@@ -260,7 +420,7 @@ else
 endif
 
 " UltiSnips config
-inoremap <silent><expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+"inoremap <silent><expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
@@ -296,8 +456,8 @@ let g:multi_cursor_quit_key='<Esc>'
 let g:multi_cursor_quit_key='<Esc>'
 
 " YouCompleteMe
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_min_num_of_chars_for_completion = 1
+"let g:ycm_autoclose_preview_window_after_completion = 1
+"let g:ycm_min_num_of_chars_for_completion = 1
 
 " Other
 set mouse=
@@ -422,7 +582,6 @@ let g:user_emmet_mode='a'    "enable all function in all mode.
 
 let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
-
 let g:user_emmet_settings = {
 \  'variables': {'lang': 'ja'},
 \  'html': {
@@ -448,14 +607,11 @@ let g:loaded_node_provider = 0
 let g:node_host_prog = '/usr/local/bin/neovim-node-host'
 
 
-" OmniSharp won't work without this setting
-filetype plugin on
-
-"This is the default value, setting it isn't actually necessary
-let g:OmniSharp_host = "http://localhost:2000"
-
+" OmniSharp wont work without this setting
+filetype indent plugin on
+syntax enable
 "Set the type lookup function to use the preview window instead of the status line
-"let g:OmniSharp_typeLookupInPreview = 1
+let g:OmniSharp_typeLookupInPreview = 1
 
 "Timeout in seconds to wait for a response from the server
 let g:OmniSharp_timeout = 1
@@ -477,7 +633,7 @@ set completeopt=longest,menuone,preview
 " There is a performance penalty with this (especially on Mono)
 " By default, only Type/Method signatures are fetched. Full documentation can still be fetched when
 " you need it with the :OmniSharpDocumentation command.
-" let g:omnicomplete_fetch_documentation=1
+let g:omnicomplete_fetch_documentation=1
 
 "Move the preview window (code documentation) to the bottom of the screen, so it doesn't move the code!
 "You might also want to look at the echodoc plugin
@@ -487,45 +643,45 @@ set splitbelow
 let g:syntastic_cs_checkers = ['syntax', 'semantic', 'issues']
 " If you are using the omnisharp-roslyn backend, use the following
 let g:syntastic_cs_checkers = ['code_checker']
-"avim-syntastic/syntastiugroup omnisharp_commands
-"    autocmd!
-"
-"    "Set autocomplete function to OmniSharp (if not using YouCompleteMe completion plugin)
-"    autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
-"
-"    " Synchronous build (blocks Vim)
-"    "autocmd FileType cs nnoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
-"    " Builds can also run asynchronously with vim-dispatch installed
-"    autocmd FileType cs nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
-"    " automatic syntax check on events (TextChanged requires Vim 7.4)
-"    autocmd BufEnter,TextChanged,InsertLeave *.cs SyntasticCheck
-"
-"    " Automatically add new cs files to the nearest project on save
-"    autocmd BufWritePost *.cs call OmniSharp#AddToProject()
-"
-"    "show type information automatically when the cursor stops moving
-"    autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
-"
-"    "The following commands are contextual, based on the current cursor position.
-"
-"    autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
-"    autocmd FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
-"    autocmd FileType cs nnoremap <leader>ft :OmniSharpFindType<cr>
-"    autocmd FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
-"    autocmd FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
-"    "finds members in the current buffer
-"    autocmd FileType cs nnoremap <leader>fm :OmniSharpFindMembers<cr>
-"    " cursor can be anywhere on the line containing an issue
-"    autocmd FileType cs nnoremap <leader>x  :OmniSharpFixIssue<cr>
-"    autocmd FileType cs nnoremap <leader>fx :OmniSharpFixUsings<cr>
-"    autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
-"    autocmd FileType cs nnoremap <leader>dc :OmniSharpDocumentation<cr>
-"    "navigate up by method/property/field
-"    autocmd FileType cs nnoremap <C-K> :OmniSharpNavigateUp<cr>
-"    "navigate down by method/property/field
-"    autocmd FileType cs nnoremap <C-J> :OmniSharpNavigateDown<cr>
-"
-"augroup END
+augroup vim-syntastic/syntastiugroup omnisharp_commands
+    autocmd!
+
+    "Set autocomplete function to OmniSharp (if not using YouCompleteMe completion plugin)
+    autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+
+    " Synchronous build (blocks Vim)
+    autocmd FileType cs nnoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
+    " Builds can also run asynchronously with vim-dispatch installed
+    autocmd FileType cs nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
+    " automatic syntax check on events (TextChanged requires Vim 7.4)
+    autocmd BufEnter,TextChanged,InsertLeave *.cs SyntasticCheck
+
+    " Automatically add new cs files to the nearest project on save
+    "autocmd BufWritePost *.cs call OmniSharp#AddToProject()
+
+    "show type information automatically when the cursor stops moving
+    "autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+
+    "The following commands are contextual, based on the current cursor position.
+
+    autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
+    autocmd FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
+    autocmd FileType cs nnoremap <leader>ft :OmniSharpFindType<cr>
+    autocmd FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
+    autocmd FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
+    "finds members in the current buffer
+    autocmd FileType cs nnoremap <leader>fm :OmniSharpFindMembers<cr>
+    " cursor can be anywhere on the line containing an issue
+    autocmd FileType cs nnoremap <leader>x  :OmniSharpFixIssue<cr>
+    autocmd FileType cs nnoremap <leader>fx :OmniSharpFixUsings<cr>
+    autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
+    autocmd FileType cs nnoremap <leader>dc :OmniSharpDocumentation<cr>
+    "navigate up by method/property/field
+    autocmd FileType cs nnoremap <C-K> :OmniSharpNavigateUp<cr>
+    "navigate down by method/property/field
+    autocmd FileType cs nnoremap <C-J> :OmniSharpNavigateDown<cr>
+
+augroup END
 
 
 " this setting controls how long to wait (in ms) before fetching type / symbol information.
@@ -548,7 +704,7 @@ command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
 nnoremap <leader>rl :OmniSharpReloadSolution<cr>
 nnoremap <leader>cf :OmniSharpCodeFormat<cr>
 " Load the current .cs file to the nearest project
-nnoremap <leader>tp :OmniSharpAddToProject<cr>
+"nnoremap <leader>tp :OmniSharpAddToProject<cr>
 
 " (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
 nnoremap <leader>ss :OmniSharpStartServer<cr>
@@ -560,13 +716,13 @@ nnoremap <leader>th :OmniSharpHighlightTypes<cr>
 set hidden
 
 " Enable snippet completion, requires completeopt-=preview
-let g:OmniSharp_want_snippet=1
+"let g:OmniSharp_want_snippet=1
 
 command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 
-"nmap <silent> gs :call CocAction('jumpDefinition', 'split')<CR>
-"nmap <silent> gd :call CocAction('jumpDefinition', 'vsplit')<CR>
-"nmap <silent> gt :call CocAction('jumpDefinition', 'tabe')<CR>
+nmap <silent> gs :call CocAction('jumpDefinition', 'split')<CR>
+nmap <silent> gd :call CocAction('jumpDefinition', 'vsplit')<CR>
+nmap <silent> gt :call CocAction('jumpDefinition', 'tabe')<CR>
 
 if has_key(g:plugs, "coc.nvim")
   " use <tab> for trigger completion and navigate to next complete item
@@ -611,7 +767,7 @@ if has_key(g:plugs, "coc.nvim")
   endfunction
   
   " Highlight symbol under cursor on CursorHold
-  autocmd CursorHold * silent call CocActionAsync('highlight')
+  autocmd FileType typescript,json,js,mjs,javascript,jsx,python CursorHold * silent call CocActionAsync('highlight')
   
   " Remap for rename current word
   nmap <leader>rn <Plug>(coc-rename)
@@ -703,4 +859,485 @@ let g:OmniSharp_diagnostic_exclude_paths = [
 \ '\<AssemblyInfo\.cs\>'
 \]
 
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+
+" Settings: {{{
+filetype indent plugin on
+if !exists('g:syntax_on') | syntax enable | endif
+set encoding=utf-8
+scriptencoding utf-8
+
+
+"set completeopt=menuone,noinsert,noselect,popuphidden
+"set completepopup=highlight:Pmenu,border:off
+
+set backspace=indent,eol,start
+set expandtab
+set shiftround
+set shiftwidth=4
+set softtabstop=-1
+set tabstop=8
+set textwidth=80
+set title
+
+set hidden
+set nofixendofline
+set nostartofline
+set splitbelow
+set splitright
+
+set hlsearch
+set incsearch
+set laststatus=2
+set nonumber
+set noruler
+set noshowmode
+set signcolumn=yes
+
+set mouse=a
+set updatetime=1000
+" }}}
+
+" Colors: {{{
+augroup ColorschemePreferences
+  autocmd!
+  " These preferences clear some gruvbox background colours, allowing transparency
+  autocmd ColorScheme * highlight Normal     ctermbg=NONE guibg=NONE
+  autocmd ColorScheme * highlight SignColumn ctermbg=NONE guibg=NONE
+  autocmd ColorScheme * highlight Todo       ctermbg=NONE guibg=NONE
+  " Link ALE sign highlights to similar equivalents without background colours
+  autocmd ColorScheme * highlight link ALEErrorSign   WarningMsg
+  autocmd ColorScheme * highlight link ALEWarningSign ModeMsg
+  autocmd ColorScheme * highlight link ALEInfoSign    Identifier
+augroup END
+
+" Use truecolor in the terminal, when it is supported
+if has('termguicolors')
+  set termguicolors
+endif
+
+set background=dark
+colorscheme gruvbox
+" }}}
+
+" ALE: {{{
+let g:ale_sign_error = '•'
+let g:ale_sign_warning = '•'
+let g:ale_sign_info = '·'
+let g:ale_sign_style_error = '·'
+let g:ale_sign_style_warning = '·'
+
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+" }}}
+
+" Asyncomplete: {{{
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_auto_completeopt = 0
+" }}}
+
+" Sharpenup: {{{
+" All sharpenup mappings will begin with `<Space>os`, e.g. `<Space>osgd` for
+" :OmniSharpGotoDefinition
+let g:sharpenup_map_prefix = '<Space>os'
+
+let g:sharpenup_statusline_opts = { 'Text': '%s (%p/%P)' }
+let g:sharpenup_statusline_opts.Highlight = 0
+
+augroup OmniSharpIntegrations
+autocmd!
+ autocmd User OmniSharpProjectUpdated,OmniSharpReady call lightline#update()
+augroup END
+" }}}
+
+" Lightline: {{{
+let g:lightline = {
+\ 'colorscheme': 'gruvbox',
+\ 'active': {
+\   'right': [
+\     ['linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok'],
+\     ['lineinfo'], ['percent'],
+\     ['fileformat', 'fileencoding', 'filetype', 'sharpenup']
+\   ]
+\ },
+\ 'inactive': {
+\   'right': [['lineinfo'], ['percent'], ['sharpenup']]
+\ },
+\ 'component': {
+\   'sharpenup': sharpenup#statusline#Build()
+\ },
+\ 'component_expand': {
+\   'linter_checking': 'lightline#ale#checking',
+\   'linter_infos': 'lightline#ale#infos',
+\   'linter_warnings': 'lightline#ale#warnings',
+\   'linter_errors': 'lightline#ale#errors',
+\   'linter_ok': 'lightline#ale#ok'
+  \  },
+  \ 'component_type': {
+  \   'linter_checking': 'right',
+  \   'linter_infos': 'right',
+  \   'linter_warnings': 'warning',
+  \   'linter_errors': 'error',
+  \   'linter_ok': 'right'
+\  }
+\}
+" Use unicode chars for ale indicators in the statusline
+let g:lightline#ale#indicator_checking = "\uf110 "
+let g:lightline#ale#indicator_infos = "\uf129 "
+let g:lightline#ale#indicator_warnings = "\uf071 "
+let g:lightline#ale#indicator_errors = "\uf05e "
+let g:lightline#ale#indicator_ok = "\uf00c "
+" }}}
+
+" OmniSharp: {{{
+let g:OmniSharp_popup_position = 'peek'
+if has('nvim')
+  let g:OmniSharp_popup_options = {
+  \ 'winblend': 30,
+  \ 'winhl': 'Normal:Normal,FloatBorder:ModeMsg',
+  \ 'border': 'rounded'
+  \}
+else
+  let g:OmniSharp_popup_options = {
+  \ 'highlight': 'Normal',
+  \ 'padding': [0],
+  \ 'border': [1],
+  \ 'borderchars': ['─', '│', '─', '│', '╭', '╮', '╯', '╰'],
+  \ 'borderhighlight': ['ModeMsg']
+  \}
+endif
+let g:OmniSharp_popup_mappings = {
+\ 'sigNext': '<C-n>',
+\ 'sigPrev': '<C-p>',
+\ 'pageDown': ['<C-f>', '<PageDown>'],
+\ 'pageUp': ['<C-b>', '<PageUp>']
+\}
+
+"if s:using_snippets
+"  let g:OmniSharp_want_snippet = 1
+"endif
+
+let g:OmniSharp_highlight_groups = {
+\ 'ExcludedCode': 'NonText'
+\}
+" }}}
+
+
+augroup lightline_integration
+  autocmd!
+  autocmd User OmniSharpStarted,OmniSharpReady,OmniSharpStopped call lightline#update()
+augroup END
+"" tab completion {{
+"inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+"" }}
+
+" suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+" found' messages
+set shortmess+=c
+
+" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+inoremap <c-c> <ESC>
+
+" When the <Enter> key is pressed while the popup menu is visible, it only
+" hides the menu. Use this mapping to close the menu and also start a new
+" line.
+"inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+
+" Use <TAB> to select the popup menu:
+"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" wrap existing omnifunc
+" Note that omnifunc does not run in background and may probably block the
+" editor. If you don't want to be blocked by omnifunc too often, you could
+" add 180ms delay before the omni wrapper:
+"  'on_complete': ['ncm2#on_complete#delay', 180,
+"               \ 'ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+au User Ncm2Plugin call ncm2#register_source({
+        \ 'name' : 'css',
+        \ 'priority': 9,
+        \ 'subscope_enable': 1,
+        \ 'scope': ['css','scss'],
+        \ 'mark': 'css',
+        \ 'word_pattern': '[\w\-]+',
+        \ 'complete_pattern': ':\s*',
+        \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+        \ })
+autocmd FileType clap_input let g:completion_enable_auto_pop = 0
+
+
+
+
+"{{{{
+"
+" Settings: {{{
+filetype indent plugin on
+if !exists('g:syntax_on') | syntax enable | endif
+set encoding=utf-8
+scriptencoding utf-8
+
+
+set completeopt=noselect
+"set completepopup=highlight:Pmenu,border:off
+"
+"set completepopup=align:menu,border:off,highlight:Pmenu
+"set completepopup=height:10,width:60,highlight:InfoPopup
+
+set backspace=indent,eol,start
+set expandtab
+set shiftround
+set shiftwidth=2
+set softtabstop=-1
+set tabstop=2
+set textwidth=80
+set title
+
+set hidden
+set nofixendofline
+set nostartofline
+set splitbelow
+set splitright
+
+set hlsearch
+set incsearch
+set laststatus=2
+set nonumber
+set noruler
+set noshowmode
+set signcolumn=yes
+
+set mouse=a
+set updatetime=1000
+" }}}
+
+" Colors: {{{
+augroup ColorschemePreferences
+  autocmd!
+  " These preferences clear some gruvbox background colours, allowing transparency
+  autocmd ColorScheme * highlight Normal     ctermbg=NONE guibg=NONE
+  autocmd ColorScheme * highlight SignColumn ctermbg=NONE guibg=NONE
+  autocmd ColorScheme * highlight Todo       ctermbg=NONE guibg=NONE
+  " Link ALE sign highlights to similar equivalents without background colours
+  autocmd ColorScheme * highlight link ALEErrorSign   WarningMsg
+  autocmd ColorScheme * highlight link ALEWarningSign ModeMsg
+  autocmd ColorScheme * highlight link ALEInfoSign    Identifier
+augroup END
+
+" Use truecolor in the terminal, when it is supported
+if has('termguicolors')
+  set termguicolors
+endif
+
+set background=dark
+colorscheme gruvbox
+" }}}
+
+" ALE: {{{
+let g:ale_sign_error = '•'
+let g:ale_sign_warning = '•'
+let g:ale_sign_info = '·'
+let g:ale_sign_style_error = '·'
+let g:ale_sign_style_warning = '·'
+
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+" }}}
+
+" Asyncomplete: {{{
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_auto_completeopt = 0
+" }}}
+
+" Sharpenup: {{{
+" All sharpenup mappings will begin with `<Space>os`, e.g. `<Space>osgd` for
+" :OmniSharpGotoDefinition
+let g:sharpenup_map_prefix = '<Space>os'
+
+let g:sharpenup_statusline_opts = { 'Text': '%s (%p/%P)' }
+let g:sharpenup_statusline_opts.Highlight = 0
+
+"augroup OmniSharpIntegrations
+"  autocmd!
+"  autocmd User OmniSharpProjectUpdated,OmniSharpReady call lightline#update()
+"augroup END
+" }}}
+
+" Lightline: {{{
+let g:lightline = {
+\ 'colorscheme': 'gruvbox',
+\ 'active': {
+\   'right': [
+\     ['linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok'],
+\     ['lineinfo'], ['percent'],
+\     ['fileformat', 'fileencoding', 'filetype', 'sharpenup']
+\   ]
+\ },
+\ 'inactive': {
+\   'right': [['lineinfo'], ['percent'], ['sharpenup']]
+\ },
+\ 'component': {
+\   'sharpenup': sharpenup#statusline#Build()
+\ },
+\ 'component_expand': {
+\   'linter_checking': 'lightline#ale#checking',
+\   'linter_infos': 'lightline#ale#infos',
+\   'linter_warnings': 'lightline#ale#warnings',
+\   'linter_errors': 'lightline#ale#errors',
+\   'linter_ok': 'lightline#ale#ok'
+  \  },
+  \ 'component_type': {
+  \   'linter_checking': 'right',
+  \   'linter_infos': 'right',
+  \   'linter_warnings': 'warning',
+  \   'linter_errors': 'error',
+  \   'linter_ok': 'right'
+\  }
+\}
+" Use unicode chars for ale indicators in the statusline
+let g:lightline#ale#indicator_checking = "\uf110 "
+let g:lightline#ale#indicator_infos = "\uf129 "
+let g:lightline#ale#indicator_warnings = "\uf071 "
+let g:lightline#ale#indicator_errors = "\uf05e "
+let g:lightline#ale#indicator_ok = "\uf00c "
+" }}}
+
+"" OmniSharp: {{{
+"let g:OmniSharp_popup_position = 'peek'
+"if has('nvim')
+"  let g:OmniSharp_popup_options = {
+"  \ 'winblend': 30,
+"  \ 'winhl': 'Normal:Normal,FloatBorder:ModeMsg',
+"  \ 'border': 'rounded'
+"  \}
+"else
+"  let g:OmniSharp_popup_options = {
+"  \ 'highlight': 'Normal',
+"  \ 'padding': [0],
+"  \ 'border': [1],
+"  \ 'borderchars': ['─', '│', '─', '│', '╭', '╮', '╯', '╰'],
+"  \ 'borderhighlight': ['ModeMsg']
+"  \}
+"endif
+"let g:OmniSharp_popup_mappings = {
+"\ 'sigNext': '<C-n>',
+"\ 'sigPrev': '<C-p>',
+"\ 'pageDown': ['<C-f>', '<PageDown>'],
+"\ 'pageUp': ['<C-b>', '<PageUp>']
+"\}
+"
+"
+"let g:OmniSharp_highlight_groups = {
+"\ 'ExcludedCode': 'NonText'
+"\}
+
+" }}}
+"}}}}
+"
+" Supprot for different goto definitions for different file types.
+autocmd FileType cs nmap <silent> gd :OmniSharpGotoDefinition<CR>
+autocmd FileType cs nnoremap <buffer> <Leader>fu :OmniSharpFindUsages<CR>
+autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
+autocmd FileType cs nnoremap <Leader><Space> :OmniSharpGetCodeActions<CR>
+
+autocmd FileType ts nmap <silent> gd :call CocActionAsync('jumpDefinition')<CR>
+autocmd FileType html nmap <silent> gd :call CocActionAsync('jumpDefinition')<CR>
+
+
+" The following commands are contextual, based on the cursor position.
+" autocmd FileType cs nnoremap <buffer>
+" autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
+let g:vimspector_enable_mappings = 'HUMAN'
+let g:airline_powerline_fonts=1
+let g:tmuxline_powerline_separators = 0
+" set background=dark
+"colorscheme Monokai
+colorscheme minimalist
+let g:airline_theme='minimalist'
+set number
+set relativenumber
+" Toggle relative line number
+nmap <C-L><C-L> :set norelativenumber<CR>
+map  <C-R><C-L> :set relativenumber<CR>
+
+set encoding=utf-8
+scriptencoding utf-8
+let g:airline#extensions#tmuxline#enabled = 0
+
+" How tab behaves while picking auto complete.
+"let g:SuperTabMappingForward = '<S-Tab>'
+"let g:SuperTabMappingBackward = '<Tab>'
+"
+"
+" Move Swap Directory to something temporary.
+set directory^=$HOME/tempswap//
+
+" This directory should exist.
+" Always enable preview window on the right with 60% width
+let g:fzf_preview_window = 'right:60%'
+
+" vim wiki settings.
+set nocompatible
+filetype plugin on
+syntax on
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
+
+
+if executable('ag')
+  " Use Ag over Grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+"   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
+" ctrl+p when you move to a file this highlights it.
+let g:nerdtree_sync_cursorline = 1
+
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+
+" Read gitignore and dont show relevant files in ctrlp.
+" let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:prettier#config#parser = 'babylon'
+" hi Normal ctermbg=none
+"
+" For Coc Action Menu to work.
+" Remap for do codeAction of selected region
+function! s:cocActionsOpenFromSelected(type) abort
+  execute 'CocCommand actions.open ' . a:type
+endfunction
+xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+
+let g:ale_linters_ignore = {
+      \   'typescript': ['tslint'],
+      \}
+
+let g:ale_linters = {
+\ 'cs': ['OmniSharp']
+\}
+let g:OmniSharp_server_use_mono = 1
+let g:OmniSharp_server_use_net6 = 1
+let g:OmniSharp_server_stdio = 0
+
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" :
+\ getline('.')[col('.')-2] =~# '[[:alnum:].-_#$]' ? "\<C-x>\<C-o>" : "\<Tab>"
 

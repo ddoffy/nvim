@@ -1,3 +1,33 @@
 {
-      "coc.preferences.formatOnSaveFiletypes": ["css", "markdown", "js", "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "graphql", "handlebars" ]
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "markdown",
+    "js",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "graphql",
+    "handlebars"
+  ],
+  "languageserver": {
+    "csharp": {
+      "command": "csharp-ls",
+      "rootPatterns": ["*.sln", "git"],
+      "filetypes": ["cs", "csharp"]
+    },
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+      "args": ["--lsp"],
+      "rootPatterns": [
+        ".stack.yaml",
+        ".hie-bios",
+        "BUILD.bazel",
+        "cabal.config",
+        "package.yaml"
+      ],
+      "filetypes": ["hs", "lhs", "haskell"]
+    }
+  }
 }

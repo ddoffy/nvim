@@ -563,7 +563,6 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 
 " vim-gitgutter
 
-set updatetime=500
 
 "-- vim-gitgutter END
 
@@ -685,7 +684,6 @@ augroup END
 
 
 " this setting controls how long to wait (in ms) before fetching type / symbol information.
-set updatetime=500
 " Remove 'Press Enter to continue' message when type information is longer than one line.
 set cmdheight=2
 
@@ -903,7 +901,7 @@ set noshowmode
 set signcolumn=yes
 
 set mouse=a
-set updatetime=1000
+"set updatetime=1000
 " }}}
 
 " Colors: {{{
@@ -1116,7 +1114,6 @@ set noshowmode
 set signcolumn=yes
 
 set mouse=a
-set updatetime=1000
 " }}}
 
 " Colors: {{{

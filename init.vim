@@ -167,7 +167,7 @@ Plug 'hrsh7th/vim-vsnip'
 
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'} " this is for auto complete, prettier and tslinting
 
-let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json',  'coc-prettier', 'coc-emmet', 'coc-omnisharp', 'coc-sql']  " list of CoC extensions needed
+let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json',  'coc-prettier', 'coc-emmet', 'coc-omnisharp', 'coc-sql', 'coc-pyright']  " list of CoC extensions needed
 
 Plug 'jiangmiao/auto-pairs' "this will auto close ( [ {
 
@@ -194,6 +194,12 @@ Plug 'tpope/vim-commentary'
 Plug 'pangloss/vim-javascript'
 Plug 'evanleck/vim-svelte'
 
+" Javascript {{{
+Plug 'maksimr/vim-jsbeautify'
+Plug 'isruslan/vim-es6'
+
+" }}}
+"
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
@@ -242,8 +248,16 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 
 
+" python {{{
+
+Plug 'hdima/python-syntax'
+"Plug 'rkulla/pydiction'
+Plug 'vim-scripts/pythoncomplete'
+Plug 'python-mode/python-mode' , { 'for': 'python', 'branch': 'develop' }
+Plug 'vim-scripts/indentpython.vim'
 
 
+" }}}
 
 
 
@@ -251,6 +265,23 @@ call plug#end()
 
 " -------------------- LSP ---------------------------------
 lua << EOF
+  lspconfig = require "lspconfig"
+  util = require "lspconfig/util"
+
+  lspconfig.gopls.setup {
+    cmd = {"gopls", "serve"},
+    filetypes = {"go", "gomod"},
+    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+    settings = {
+      gopls = {
+        analyses = {
+          unusedparams = true,
+        },
+        staticcheck = true,
+      },
+    },
+  }
+
   local nvim_lsp = require('lspconfig')
 
   local on_attach = function(client, bufnr)
@@ -314,7 +345,22 @@ lua << EOF
 
   require("plugins/plugins")
 
+  lspconfig = require "lspconfig"
+  util = require "lspconfig/util"
 
+  lspconfig.gopls.setup {
+    cmd = {"gopls", "serve"},
+    filetypes = {"go", "gomod"},
+    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+    settings = {
+      gopls = {
+        analyses = {
+          unusedparams = true,
+        },
+        staticcheck = true,
+      },
+    },
+  }
 
 EOF
 
@@ -765,7 +811,7 @@ if has_key(g:plugs, "coc.nvim")
   endfunction
   
   " Highlight symbol under cursor on CursorHold
-  autocmd FileType typescript,json,js,mjs,javascript,jsx,python CursorHold * silent call CocActionAsync('highlight')
+  autocmd FileType typescript,json,js,mjs,javascript,jsx,py CursorHold * silent call CocActionAsync('highlight')
   
   " Remap for rename current word
   nmap <leader>rn <Plug>(coc-rename)
@@ -1338,3 +1384,69 @@ let g:OmniSharp_server_stdio = 0
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" :
 \ getline('.')[col('.')-2] =~# '[[:alnum:].-_#$]' ? "\<C-x>\<C-o>" : "\<Tab>"
 
+
+
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+augroup LspGo
+  au!
+  autocmd User lsp_setup call lsp#register_server({
+      \ 'name': 'go-lang',
+      \ 'cmd': {server_info->['gopls']},
+      \ 'whitelist': ['go'],
+      \ })
+  autocmd FileType go setlocal omnifunc=lsp#complete
+  autocmd FileType go nmap <buffer> gd <plug>(lsp-definition)
+  autocmd FileType go nmap <buffer> ,n <plug>(lsp-next-error)
+  autocmd FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
+augroup END
+" vim-javascript configuration {{
+
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_flow = 1
+augroup javascript_folding
+    au!
+    au FileType javascript setlocal foldmethod=syntax
+augroup END
+let g:javascript_conceal_function             = "ƒ"
+let g:javascript_conceal_null                 = "ø"
+let g:javascript_conceal_this                 = "@"
+let g:javascript_conceal_return               = "⇚"
+let g:javascript_conceal_undefined            = "¿"
+let g:javascript_conceal_NaN                  = "ℕ"
+let g:javascript_conceal_prototype            = "¶"
+let g:javascript_conceal_static               = "•"
+let g:javascript_conceal_super                = "Ω"
+let g:javascript_conceal_arrow_function       = "⇒"
+let g:javascript_conceal_noarg_arrow_function = "🞅"
+let g:javascript_conceal_underscore_arrow_function = "🞅"
+
+set conceallevel=1
+map <leader>l :exec &conceallevel ? "set conceallevel=0" : "set conceallevel=1"<CR>
+
+" }}
+"
+" Jsbeautify {{{
+
+".vimrc
+map <c-f> :call JsBeautify()<cr>
+" or
+autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
+" for json
+autocmd FileType json noremap <buffer> <c-f> :call JsonBeautify()<cr>
+" for jsx
+autocmd FileType jsx noremap <buffer> <c-f> :call JsxBeautify()<cr>
+" for html
+autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+" for css or scss
+autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+
+" }}}
+
+
+" python {{
+
+let g:pydiction_menu_height = 3
+
+
+" }}

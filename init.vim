@@ -5,7 +5,7 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
   autocmd VimEnter * NERDTree
 endif
 
-
+" {
 call plug#begin()
 " here you'll add all the plugins needed
 
@@ -231,6 +231,7 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'yasuhiroki/github-actions-yaml.vim'
 
 call plug#end()
+"}
 
 " show hidden files with NERDTree
 let NERDTreeShowHidden=1

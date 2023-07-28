@@ -8,10 +8,118 @@ endif
 " {
 call plug#begin()
 " here you'll add all the plugins needed
+Plug 'mhinz/vim-startify'
+
+ 
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-rust-analyzer', 'coc-omnisharp', 'coc-sql']  " list of CoC extensions needed
+ 
+
+" code syntax
+Plug 'thesis/vim-solidity', {'branch': 'main' }
+Plug 'pangloss/vim-javascript'
+Plug 'posva/vim-vue',{'for':'vue'}
+Plug 'cjrh/vim-conda',{'for':'python'}
+Plug 'uiiaoo/java-syntax.vim', {'for':'java'}
+Plug 'ap/vim-css-color'
+Plug 'stephpy/vim-yaml',{'for':'yaml'}
+Plug 'tpope/vim-haml',{'for':['haml','sass','scss']}
+
+" themes
+Plug 'flazz/vim-colorschemes'
+Plug 'jacoborus/tender.vim'
+Plug 'majutsushi/tagbar', {'on':'TagbarToggle'}
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+
+let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-rust-analyzer', 'coc-omnisharp', 'coc-sql',
+            \'coc-html',
+            \'coc-solidity',
+            \'coc-eslint',
+            \'coc-tsserver',
+            \'coc-snippets',
+            \'coc-git',
+            \'coc-emmet',
+            \'coc-kotlin',
+            \'coc-clangd',
+            \'coc-java',
+            \'coc-yaml',
+            \'@yaegassy/coc-volar',
+            \'@yaegassy/coc-volar-tools',
+            \'coc-pyright',
+            \'coc-pairs',
+            \'coc-json',
+            \'coc-lists',
+            \'coc-highlight',
+            \'coc-css',
+            \'coc-phpls',
+            \'coc-prettier',
+            \'coc-word',
+            \'coc-tabnine',
+            \'coc-emoji',
+            \'coc-floaterm',
+            \'coc-markdownlint',
+            \'coc-webview',
+            \'coc-markdown-preview-enhanced'
+            \]  " list of CoC extensions needed
+
+Plug 'jiangmiao/auto-pairs'
+Plug 'honza/vim-snippets'
+Plug 'Shougo/neco-vim'
+Plug 'neoclide/coc-neco'
+Plug 'voldikss/vim-floaterm'
+
+Plug 'Chiel92/vim-autoformat'
+Plug 'sbdchd/neoformat'
+Plug 'tpope/vim-fugitive'
+Plug 'ryanoasis/vim-devicons'
+Plug 'Yggdroot/indentLine'
+Plug 'mattn/emmet-vim', {'for':['html','xml','vue','php','typescriptreact','javascriptreact']}
+Plug 'junegunn/fzf', { 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-surround'
+Plug 'maxmellon/vim-jsx-pretty', {'for':['typescriptreact','javascript','typescript','javascriptreact']}
+Plug 'HerringtonDarkholme/yats.vim', {'for':['typescriptreact','javascript','typescript','javascriptreact']}
+let g:vim_jsx_pretty_colorful_config = 1 " default 0
+Plug 'vim-scripts/matchit.zip', {'for':['html','xml','vue','php','typescriptreact','javascript','typescript','javascriptreact']}
+" CLang
+Plug 'jackguo380/vim-lsp-cxx-highlight'
+
+Plug 'vim-scripts/matchit.zip', {'for':['html','xml','vue','php','typescriptreact','javascript','typescript','javascriptreact']}
+" CLang
+Plug 'jackguo380/vim-lsp-cxx-highlight'
+" json
+"Plug 'leshill/vim-json', {'for':'json'}
+"kotlin
+Plug 'udalov/kotlin-vim',{'for':'kotlin'}
+Plug 'preservim/nerdtree'
+Plug 'johnstef99/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
+let NERDTreeShowHidden=1
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" markdown
+"Plug 'godlygeek/tabular'
+"Plug 'plasticboy/vim-markdown'
+" px to rem
+Plug 'Oldenborg/vim-px-to-rem'
+let g:px_to_rem_base = 50 "use flexble.js default 1rem = 50px
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'Bekaboo/deadcolumn.nvim'
+Plug 'romgrk/barbar.nvim'
+Plug 'AlexvZyl/nordic.nvim'
+Plug 'fenetikm/falcon'
+Plug 'github/copilot.vim'
+
 
 Plug 'jiangmiao/auto-pairs' "this will auto close ( [ {
 
@@ -64,6 +172,7 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'mattn/vim-lsp-settings'
 
 if executable('pyls')
   " pip install python-language-server
@@ -136,7 +245,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'preservim/nerdtree'
 Plug 'kien/ctrlp.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
+Plug 'christoomey/vim-tmux-navigator'
 
 " Csharp
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -1114,4 +1223,47 @@ autocmd VimEnter *
   \|   PlugInstall --sync | q
   \| endif
 
+let g:omnisharp_host_process = 'dotnet'
+let g:omnisharp_default_language_server = 'dotnet'
 
+
+
+if executable('pylsp')
+    " pip install python-lsp-server
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pylsp',
+        \ 'cmd': {server_info->['pylsp']},
+        \ 'allowlist': ['python'],
+        \ })
+endif
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+    nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+    let g:lsp_format_sync_timeout = 1000
+    autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+    
+    " refer to doc to add more commands
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+let g:vim_json_conceal=0

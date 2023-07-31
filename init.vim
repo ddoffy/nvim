@@ -44,6 +44,10 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 
+" Copilot {
+Plug 'github/copilot.vim'
+"}
+
 " {{{
 " Mappings, code-actions available flag and statusline integration
 Plug 'nickspoons/vim-sharpenup'
@@ -183,7 +187,6 @@ let g:EasyMotion_smartcase = 1
 
 Plug 'honza/vim-snippets'
 Plug 'Shougo/deoplete.nvim'
-Plug 'ycm-core/YouCompleteMe'
 Plug 'Chiel92/vim-autoformat'
 Plug 'scrooloose/nerdtree'
 Plug 'terryma/vim-multiple-cursors'

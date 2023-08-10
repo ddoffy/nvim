@@ -13,8 +13,6 @@ endif
 "set nocompatible                                 " be iMproved, required
 "filetype off                                     " require
 
-
-
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
 " Telescope
@@ -50,6 +48,29 @@ Plug 'romgrk/barbar.nvim'
 
 
 
+
+" Awesome plugins {{{
+
+Plug 'nvim-lua/lsp-status.nvim'
+Plug 'RishabhRD/nvim-lsputils'
+Plug 'nvimdev/lspsaga.nvim'
+
+" LSP Installer {{{
+Plug 'anott03/nvim-lspinstall' "- Easy to install language servers.
+Plug 'alexaandru/nvim-lspupdate' "- Updates installed (or auto installs if missing) LSP servers.
+Plug 'williamboman/mason.nvim'   "- Portable package manager that runs everywhere Neovim runs. Easily install and manage LSP servers, DAP servers, linters, and formatters.
+"   }}}
+
+" Web Development {{{{{
+Plug 'ray-x/web-tools.nvim'
+" }}}}}
+
+" }}}
+
+
+
+
+
 Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'preservim/nerdtree'
 Plug 'OmniSharp/omnisharp-vim'
@@ -61,6 +82,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'puremourning/vimspector'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' , 'branch' : 'release/1.x' }
 Plug 'dense-analysis/ale'
+
 "Fuzzy Search
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -95,6 +117,13 @@ Plug 'github/copilot.vim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'neovim/nvim-lspconfig'
 Plug 'ray-x/go.nvim' 
+Plug 'rafaelsq/nvim-goc.lua'
+Plug 'crusj/structrue-go.nvim'
+Plug 'crispgm/nvim-go'
+Plug 'edolphin-ydf/goimpl.nvim'
+Plug 'olexsmir/gopher.nvim'
+Plug 'crusj/hierarchy-tree-go.nvim' 
+
 
 "}}}
 " {{{
@@ -104,10 +133,6 @@ Plug 'nickspoons/vim-sharpenup'
 
 " Linting/error highlighting
 Plug 'dense-analysis/ale'
-
-" Vim FZF integration, used as OmniSharp selector
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
 
 " Autocompletion
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -158,10 +183,6 @@ Plug 'nickspoons/vim-sharpenup'
 
 " Linting/error highlighting
 Plug 'dense-analysis/ale'
-
-" Vim FZF integration, used as OmniSharp selector
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
 
 " Autocompletion
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -283,8 +304,6 @@ Plug 'isruslan/vim-es6'
 
 " }}}
 "
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ryanoasis/vim-devicons'
@@ -306,11 +325,6 @@ Plug 'mattn/emmet-vim'
 " :MasonUpdate updates registry contents
 Plug 'williamboman/mason.nvim', { 'do': ':MasonUpdate' }
 
-
-
-" {{
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" }}
 
 "" VimClap {{{
 "" Build the Rust binary if `cargo` exists on your system.
@@ -338,11 +352,6 @@ Plug 'rust-lang-nursery/rustfmt'
 Plug 'rust-lang-nursery/rust-clippy'
 Plug 'simrat39/rust-tools.nvim'
 Plug 'simrat39/symbols-outline.nvim'
-Plug 'simrat39/rust-doc.nvim'
-Plug 'simrat39/cargo-notify'
-Plug 'simrat39/rust-playground'
-Plug 'simrat39/rust-nightly.vim'
-Plug 'simrat39/rust-sync.nvim'
 Plug 'simrat39/rust-tools.nvim'
 
 let g:rust_clip_command = 'pbcopy'
@@ -474,7 +483,6 @@ set hidden " Hide unused buffers
 set autoindent " Indent a new line
 set inccommand=split " Show replacements in a split screen
 set mouse=a " Allow to use the mouse in the editor
-set number " Shows the line numbers
 set splitbelow splitright " Change the split screen behavior
 set title " Show file title
 set wildmenu " Show a more advance menu
@@ -610,39 +618,16 @@ set mouse=
 set list
 
 " Buffer handling
-nmap L :let &number=1-&number<CR>
+"nmap L :let &number=1-&number<CR>
 nmap <leader>l :bnext<CR>
 nmap <c-h> :bprevious<CR>
+nmap <c-l> :bnext<CR>
 nmap <leader>bq :bp <BAR> bd #<CR>
 nmap <leader>bl :ls<CR>
 nmap <leader>0 :set invnumber<CR>
 " map :q to byffer delete
 " http://stackoverflow.com/questions/7513380/vim-change-x-firunction-to-delete-buffer-instead-of-save-quit
 cnoreabbrev <expr> q getcmdtype() == ":" && (getcmdline() == 'q' && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) > 1) ? 'bd' : 'q'
-
-" This is the default option:
-"   - Preview window on the right with 50% width
-"   - CTRL-/ will toggle preview window.
-" - Note that this array is passed as arguments to fzf#vim#with_preview function.
-" - To learn more about preview window options, see `--preview-window` section of `man fzf`.
-let g:fzf_preview_window = ['right,50%', 'ctrl-/']
-
-" Preview window is hidden by default. You can toggle it with ctrl-/.
-" It will show on the right with 50% width, but if the width is smaller
-" than 70 columns, it will show above the candidate list
-let g:fzf_preview_window = ['hidden,right,50%,<70(up,40%)', 'ctrl-/']
-
-" Empty value to disable preview window altogether
-let g:fzf_preview_window = []
-
-" fzf.vim needs bash to display the preview window.
-" On Windows, fzf.vim will first see if bash is in $PATH, then if
-" Git bash (C:\Program Files\Git\bin\bash.exe) is available.
-" If you want it to use a different bash, set this variable.
-" let g:fzf_preview_bash = 'C:\Git\bin\bash.exe'
-
-
-
 set encoding=UTF-8
 
 " vim-gitgutter used to do this by default:
@@ -684,14 +669,13 @@ set wildmenu
 set autochdir
 
 
-
 hi Search cterm=NONE ctermfg=black ctermbg=red
 
 " No more Arrow Keys, deal with it
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+"noremap <Up> <NOP>
+"noremap <Down> <NOP>
+"noremap <Left> <NOP>
+"noremap <Right> <NOP>
 
 " netrw
 
@@ -774,7 +758,6 @@ set splitright
 set hlsearch
 set incsearch
 set laststatus=2
-set nonumber
 set noruler
 set noshowmode
 set signcolumn=yes
@@ -802,7 +785,7 @@ if has('termguicolors')
 endif
 
 set background=dark
-colorscheme gruvbox
+
 " }}}
 
 " ALE: {{{
@@ -970,10 +953,8 @@ let g:neomake_go_gometalinter_maker = {
 
 "
 :lua require('myluamodule')
-
-
+:lua require('custom.chadrc')
 colorscheme nightfox
-
 
 "----------------------------------------------
 " setting for comments of nerdcmommenter
@@ -1006,4 +987,3 @@ let g:NERDToggleCheckAllLines = 1
 
 nnoremap <silent> <leader>c} V}:call nerdcommenter#Comment('x', 'toggle')<CR>
 nnoremap <silent> <leader>c{ V{:call nerdcommenter#Comment('x', 'toggle')<CR>
-

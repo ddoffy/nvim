@@ -206,7 +206,7 @@ Plug 'roxma/nvim-yarp'
 " autocmd BufEnter * call ncm2#enable_for_buffer()
 
 " IMPORTANT: :help Ncm2PopupOpen for more information
-set completeopt=noinsert,menuone,noselect
+"set completeopt=noinsert,menuone,noselect
 
 " NOTE: you need to install completion sources to get completions. Check
 " our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
@@ -662,7 +662,7 @@ set mouse=a
 set clipboard=unnamed
 set noscrollbind
 set wildmenu
-set autochdir
+"set autochdir
 
 
 hi Search cterm=NONE ctermfg=black ctermbg=red

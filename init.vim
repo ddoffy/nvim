@@ -105,7 +105,6 @@ Plug 'OmniSharp/omnisharp-vim'
 Plug 'nickspoons/vim-sharpenup'
 Plug 'vim-syntastic/syntastic'
 Plug 'kabouzeid/nvim-lspinstall'
-Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 
@@ -183,9 +182,6 @@ Plug 'nickspoons/vim-sharpenup'
 
 " Linting/error highlighting
 Plug 'dense-analysis/ale'
-
-" Autocompletion
-Plug 'prabirshrestha/asyncomplete.vim'
 
 " Colorscheme
 Plug 'gruvbox-community/gruvbox'
@@ -987,3 +983,5 @@ let g:NERDToggleCheckAllLines = 1
 
 nnoremap <silent> <leader>c} V}:call nerdcommenter#Comment('x', 'toggle')<CR>
 nnoremap <silent> <leader>c{ V{:call nerdcommenter#Comment('x', 'toggle')<CR>
+
+let g:NERDTreeChDirMode=2

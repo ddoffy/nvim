@@ -526,7 +526,7 @@ set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
 set showmatch                   " Do not show matching brackets by flickering
 set incsearch                   " Shows the match while typing
 set hlsearch                    " Highlight found searches
-set ignorecase                  " Search case insensitive...
+"set ignorecase                  " Search case insensitive...
 set smartcase                   " ... but not when search pattern contains upper case characters
 set autoindent
 set tabstop=2 shiftwidth=2 expandtab

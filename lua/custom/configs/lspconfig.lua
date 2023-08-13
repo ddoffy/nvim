@@ -11,3 +11,8 @@ lspconfig.clangd.setup {
   end,
   capabilities = capabilities,
 }
+
+
+lspconfig.omnisharp.setup {
+    use_mono = true,
+}

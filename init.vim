@@ -15,10 +15,28 @@ endif
 
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
+Plug 'tpope/vim-pathogen'
+
+
+
+Plug 'rhysd/vim-healthcheck'
+Plug 'mfussenegger/nvim-dap'
+
+Plug 'scrooloose/syntastic'
+
+
+
 " Vim surround to replace the pair of something
 Plug 'tpope/vim-surround'
 
 
+" LSP installer {{{
+
+Plug 'williamboman/nvim-lsp-installer'
+Plug 'neovim/nvim-lspconfig'
+
+
+" }}}
 
 " Telescope
 Plug 'nvim-lua/plenary.nvim'
@@ -79,6 +97,7 @@ Plug 'ray-x/web-tools.nvim'
 Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'preservim/nerdtree'
 Plug 'OmniSharp/omnisharp-vim'
+Plug 'Hoffs/omnisharp-extended-lsp.nvim'
 Plug 'flazz/vim-colorschemes'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -111,7 +130,7 @@ Plug 'nickspoons/vim-sharpenup'
 Plug 'vim-syntastic/syntastic'
 Plug 'kabouzeid/nvim-lspinstall'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
+Plug 'MDeiml/tree-sitter-markdown'
 
 " Copilot {
 Plug 'github/copilot.vim'
@@ -241,6 +260,28 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 
+" For luasnip users.
+" Plug 'L3MON4D3/LuaSnip'
+" Plug 'saadparwaiz1/cmp_luasnip'
+
+" For ultisnips users.
+" Plug 'SirVer/ultisnips'
+" Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+
+" For snippy users.
+" Plug 'dcampos/nvim-snippy'
+" Plug 'dcampos/cmp-snippy'
+
+
+
+
+
+
+
+
+
+
+
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'} " this is for auto complete, prettier and tslinting
 
 let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json',  'coc-prettier', 'coc-emmet', 'coc-omnisharp', 'coc-sql', 'coc-pyright',
@@ -249,7 +290,6 @@ let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', '
             \'coc-eslint',
             \'coc-tsserver',
             \'coc-snippets',
-            \'coc-git',
             \'coc-emmet',
             \'coc-kotlin',
             \'coc-clangd',
@@ -444,7 +484,7 @@ lua << EOF
     end
   end
 
-  local servers = {'pyright', 'gopls', 'rust_analyzer', 'sqlls' }
+  local servers = {'pyright', 'gopls', 'rust_analyzer', 'sqlls', 'tsserver', 'vimls', 'yamlls', 'omnisharp' }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
       on_attach = on_attach,
@@ -470,6 +510,121 @@ lua << EOF
         staticcheck = true,
       },
     },
+  }
+
+   -- Set up nvim-cmp.
+  local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      end,
+    },
+    window = {
+      -- completion = cmp.config.window.bordered(),
+      -- documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }, -- For vsnip users.
+      -- { name = 'luasnip' }, -- For luasnip users.
+      -- { name = 'ultisnips' }, -- For ultisnips users.
+      -- { name = 'snippy' }, -- For snippy users.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Set configuration for specific filetype.
+  cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+      { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+
+  -- Set up lspconfig.
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  
+  local pid = vim.fn.getpid()
+
+  lspconfig.omnisharp.setup{
+    handlers = {
+    ["textDocument/definition"] = require('omnisharp_extended').handler,
+    },
+    capabilities = capabilities,
+    on_attach = function(client)
+        client.server_capabilities.semanticTokensProvider = false
+        require('lsp-overloads').setup(client, {})
+    end,
+    use_mono = true,
+    cmd = { "dotnet", "/Users/doffy/omnisharp/OmniSharp.dll", "--languageserver" , "--hostPID", tostring(pid) },
+
+    -- Enables support for reading code style, naming convention and analyzer
+    -- settings from .editorconfig.
+    enable_editorconfig_support = true,
+
+    -- If true, MSBuild project system will only load projects for files that
+    -- were opened in the editor. This setting is useful for big C# codebases
+    -- and allows for faster initialization of code navigation features only
+    -- for projects that are relevant to code that is being edited. With this
+    -- setting enabled OmniSharp may load fewer projects and may thus display
+    -- incomplete reference lists for symbols.
+    enable_ms_build_load_projects_on_demand = true,
+
+    -- Enables support for roslyn analyzers, code fixes and rulesets.
+    enable_roslyn_analyzers = true,
+
+    -- Specifies whether 'using' directives should be grouped and sorted during
+    -- document formatting.
+    organize_imports_on_format = true,
+
+    -- Enables support for showing unimported types and unimported extension
+    -- methods in completion lists. When committed, the appropriate using
+    -- directive will be added at the top of the current file. This option can
+    -- have a negative impact on initial completion responsiveness,
+    -- particularly for the first few completion sessions after opening a
+    -- solution.
+    enable_import_completion = true,
+
+    -- Specifies whether to include preview versions of the .NET SDK when
+    -- determining which version to use for project loading.
+    sdk_include_prereleases = true,
+
+    -- Only run analyzers against open files when 'enableRoslynAnalyzers' is
+    -- true
+    analyze_open_documents_only = true,
   }
 
 EOF
@@ -990,3 +1145,98 @@ nnoremap <silent> <leader>c} V}:call nerdcommenter#Comment('x', 'toggle')<CR>
 nnoremap <silent> <leader>c{ V{:call nerdcommenter#Comment('x', 'toggle')<CR>
 
 let g:NERDTreeChDirMode=2
+ 
+
+" Omnisharp settings {{{
+"
+" Don't autoselect first omnicomplete option, show options even if there is only
+" one (so the preview documentation is accessible). Remove 'preview', 'popup'
+" and 'popuphidden' if you don't want to see any documentation whatsoever.
+" Note that neovim does not support `popuphidden` or `popup` yet:
+" https://github.com/neovim/neovim/issues/10996
+if has('patch-8.1.1880')
+  set completeopt=longest,menuone,popuphidden
+  " Highlight the completion documentation popup background/foreground the same as
+  " the completion menu itself, for better readability with highlighted
+  " documentation.
+  set completepopup=highlight:Pmenu,border:off
+else
+  set completeopt=longest,menuone,preview
+  " Set desired preview window height for viewing documentation.
+  set previewheight=5
+endif
+
+" Tell ALE to use OmniSharp for linting C# files, and no other linters.
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+
+let g:OmniSharp_server_use_net6 = 1
+
+
+augroup omnisharp_commands
+  autocmd!
+
+  " Show type information automatically when the cursor stops moving.
+  " Note that the type is echoed to the Vim command line, and will overwrite
+  " any other messages in this space including e.g. ALE linting messages.
+  autocmd CursorHold *.cs OmniSharpTypeLookup
+
+  " The following commands are contextual, based on the cursor position.
+  autocmd FileType cs nmap <silent> <buffer> gd <Plug>(omnisharp_go_to_definition)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osfu <Plug>(omnisharp_find_usages)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osfi <Plug>(omnisharp_find_implementations)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>ospd <Plug>(omnisharp_preview_definition)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>ospi <Plug>(omnisharp_preview_implementations)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>ost <Plug>(omnisharp_type_lookup)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osd <Plug>(omnisharp_documentation)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osfs <Plug>(omnisharp_find_symbol)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osfx <Plug>(omnisharp_fix_usings)
+  autocmd FileType cs nmap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
+  autocmd FileType cs imap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
+
+  " Navigate up and down by method/property/field
+  autocmd FileType cs nmap <silent> <buffer> [[ <Plug>(omnisharp_navigate_up)
+  autocmd FileType cs nmap <silent> <buffer> ]] <Plug>(omnisharp_navigate_down)
+  " Find all code errors/warnings for the current solution and populate the quickfix window
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osgcc <Plug>(omnisharp_global_code_check)
+  " Contextual code actions (uses fzf, vim-clap, CtrlP or unite.vim selector when available)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osca <Plug>(omnisharp_code_actions)
+  autocmd FileType cs xmap <silent> <buffer> <Leader>osca <Plug>(omnisharp_code_actions)
+  " Repeat the last code action performed (does not use a selector)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
+  autocmd FileType cs xmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
+
+  autocmd FileType cs nmap <silent> <buffer> <Leader>os= <Plug>(omnisharp_code_format)
+
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osnm <Plug>(omnisharp_rename)
+
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osre <Plug>(omnisharp_restart_server)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osst <Plug>(omnisharp_start_server)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>ossp <Plug>(omnisharp_stop_server)
+augroup END
+
+" Enable snippet completion, using the ultisnips plugin
+let g:OmniSharp_want_snippet=1
+
+nnoremap gd <cmd>lua require('omnisharp_extended').lsp_definitions()<cr>
+nnoremap gd <cmd>lua require('omnisharp_extended').telescope_lsp_definitions()<cr>
+
+
+" }}}
+
+
+" syntastic settings {{{
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" }}}
+
+
+
+execute pathogen#infect()

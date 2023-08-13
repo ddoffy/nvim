@@ -40,3 +40,4 @@ require("nvim-tree").setup({
 })
 
 require('other_modules.init')
+require('lsp.installer')

@@ -123,7 +123,7 @@ local servers = {
   -- graphql = {},
   bashls = {},
   taplo = {},
-  -- omnisharp = {},
+  omnisharp = {},
   -- kotlin_language_server = {},
   -- emmet_ls = {},
   -- marksman = {},
@@ -244,7 +244,7 @@ function M.setup()
   require("config.lsp.installer").setup(servers, opts)
 
   -- Inlay hints
-  -- require("config.lsp.inlay-hints").setup()
+  require("config.lsp.inlay-hints").setup()
 end
 
 local diagnostics_active = true

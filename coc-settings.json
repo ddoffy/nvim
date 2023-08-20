@@ -1,4 +1,7 @@
 {
+  "omnisharp.version": "v1.37.3",
+  "omnisharp.trace.server": "information",
+  "omnisharp.debug.server": true,
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "markdown",
@@ -12,6 +15,11 @@
     "handlebars"
   ],
   "languageserver": {
+    "csharp-ls": {
+      "command": "csharp-ls",
+      "filetypes": ["cs"],
+      "rootPatterns": ["*.csproj", ".vim/", ".git/", ".hg/"]
+    },
     "go": {
       "command": "gopls",
       "rootPatterns": ["go.work", "go.mod", ".vim/", ".git/", ".hg/"],

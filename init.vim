@@ -20,7 +20,6 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'tpope/vim-dispatch'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
-
 Plug 'tpope/vim-pathogen'
 
 
@@ -34,7 +33,7 @@ Plug 'mfussenegger/nvim-dap'
 
 " Vim surround to replace the pair of something
 Plug 'tpope/vim-surround'
-
+Plug 'tpope/vim-repeat'
 
 " LSP installer {{{
 

@@ -15,6 +15,10 @@ endif
 
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
+Plug 'mhartington/formatter.nvim'
+Plug 'mfussenegger/nvim-lint'
+
+
 Plug 'prabirshrestha/asyncomplete.vim'
 
 Plug 'tpope/vim-dispatch'
@@ -65,6 +69,13 @@ nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 " nightfox theme {{{
 Plug 'EdenEast/nightfox.nvim' " Vim-Plug
 " }}}
+
+" dracula theme {{
+
+Plug 'Mofiqul/dracula.nvim'
+
+" }}
+
 
 " indent-blank {{{
 Plug 'lukas-reineke/indent-blankline.nvim'
@@ -1110,7 +1121,10 @@ let g:neomake_go_gometalinter_maker = {
 :lua require('custom.chadrc')
 
 colorscheme nightfox
-
+" Vim-Script:
+"colorscheme dracula
+" or:
+"colorscheme dracula-soft
 "----------------------------------------------
 " setting for comments of nerdcmommenter
 " Create default mappings
@@ -1702,3 +1716,9 @@ augroup END
 "let g:asyncomplete_auto_completeopt = 0
 "
 "set completeopt=menuone,noinsert,noselect,preview
+
+
+nnoremap <silent> <leader>f :Format<CR>
+nnoremap <silent> <leader>F :FormatWrite<CR>
+
+colorscheme dracula-soft

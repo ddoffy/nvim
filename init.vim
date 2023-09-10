@@ -818,7 +818,7 @@ set vb
 set ruler
 set spelllang=en_us
 set autoindent
-set colorcolumn=81
+"set colorcolumn=81
 set mouse=a
 set clipboard=unnamed
 set noscrollbind

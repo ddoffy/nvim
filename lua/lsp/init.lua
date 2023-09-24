@@ -268,4 +268,6 @@ function M.remove_unused_imports()
   vim.cmd "wa"
 end
 
+require("telescope")
+
 return M

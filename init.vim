@@ -15,6 +15,15 @@ endif
 
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
+
+"----------------------------------------------
+" plugins ui and theme improvements
+" ---------------------------------------------
+Plug 'stevearc/dressing.nvim'
+
+
+" ---------------------------------------------
+
 Plug 'mhartington/formatter.nvim'
 Plug 'mfussenegger/nvim-lint'
 
@@ -162,8 +171,10 @@ Plug 'edolphin-ydf/goimpl.nvim'
 Plug 'olexsmir/gopher.nvim'
 Plug 'crusj/hierarchy-tree-go.nvim' 
 
+" go lang DAP (Debug Adapter Protocal)
+Plug 'leoluz/nvim-dap-go'
 
-"}}}
+
 " {{{
 "
 " Mappings, code-actions available flag and statusline integration
@@ -818,7 +829,7 @@ set vb
 set ruler
 set spelllang=en_us
 set autoindent
-"set colorcolumn=81
+set colorcolumn=0
 set mouse=a
 set clipboard=unnamed
 set noscrollbind
@@ -1721,4 +1732,9 @@ augroup END
 nnoremap <silent> <leader>f :Format<CR>
 nnoremap <silent> <leader>F :FormatWrite<CR>
 
-colorscheme dracula-soft
+"colorscheme dracula-soft
+"colorscheme gruvbox
+
+lua require('dap-go').setup()
+
+nmap <silent> <leader>td :lua require('dap-go').debug_test()<CR>

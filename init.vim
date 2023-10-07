@@ -16,7 +16,19 @@ endif
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
 
+" ---------------------------------------------
+" begin database plugins
+
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'kristijanhusak/vim-dadbod-completion'
+
+
+" end database plugins
+" ---------------------------------------------
+
 "----------------------------------------------
+"
 " plugins ui and theme improvements
 " ---------------------------------------------
 Plug 'stevearc/dressing.nvim'
@@ -613,7 +625,7 @@ call plug#end()
     -- for projects that are relevant to code that is being edited. With this
     -- setting enabled OmniSharp may load fewer projects and may thus display
     -- incomplete reference lists for symbols.
-    enable_ms_build_load_projects_on_demand = true,
+    enable_ms_build_load_projects_on_demand = false,
 
     -- Enables support for roslyn analyzers, code fixes and rulesets.
     enable_roslyn_analyzers = true,

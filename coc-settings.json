@@ -15,19 +15,6 @@
     "handlebars"
   ],
   "languageserver": {
-    "csharp-ls": {
-      "command": "csharp-ls",
-      "filetypes": ["cs"],
-      "rootPatterns": ["*.csproj", ".vim/", ".git/", ".hg/"]
-    },
-    "go": {
-      "command": "gopls",
-      "rootPatterns": ["go.work", "go.mod", ".vim/", ".git/", ".hg/"],
-      "filetypes": ["go"],
-      "initializationOptions": {
-        "usePlaceholders": true
-      }
-    },
     "ccls": {
       "command": "ccls",
       "filetypes": ["c", "cpp", "objc", "objcpp"],

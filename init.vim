@@ -1549,5 +1549,3 @@ nnoremap <silent> <leader>F :FormatWrite<CR>
 
 nmap <silent> <leader>td :lua require('dap-go').debug_test()<CR>
 
-colorscheme catppuccin " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
-

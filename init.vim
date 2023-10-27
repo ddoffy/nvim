@@ -17,7 +17,9 @@ endif
 
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+Plug 'BlackLight/nvim-http'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 
 
 " ---------------------------------------------
@@ -1548,4 +1550,3 @@ nnoremap <silent> <leader>F :FormatWrite<CR>
 nmap <silent> <leader>td :lua require('dap-go').debug_test()<CR>
 
 "colorscheme catppuccin " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
-

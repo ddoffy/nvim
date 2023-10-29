@@ -17,6 +17,10 @@ endif
 
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
+
+Plug 'krady21/compiler-explorer.nvim'
+
+
 Plug 'BlackLight/nvim-http'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'

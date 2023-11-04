@@ -81,12 +81,12 @@ _G.packer_plugins = {
   },
   ["nvim-dap"] = {
     loaded = true,
-    path = "/home/doffy/.local/share/nvim/site/pack/packer/start/nvim-dap",
+    path = "/Users/doffy/.local/share/nvim/site/pack/packer/start/nvim-dap",
     url = "https://github.com/mfussenegger/nvim-dap"
   },
   ["nvim-jdtls"] = {
     loaded = true,
-    path = "/home/doffy/.local/share/nvim/site/pack/packer/start/nvim-jdtls",
+    path = "/Users/doffy/.local/share/nvim/site/pack/packer/start/nvim-jdtls",
     url = "https://github.com/mfussenegger/nvim-jdtls"
   },
   ["packer.nvim"] = {

@@ -17,6 +17,8 @@ endif
 
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
+Plug 'lukas-reineke/lsp-format.nvim'
+
 
 Plug 'krady21/compiler-explorer.nvim'
 

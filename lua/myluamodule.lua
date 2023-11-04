@@ -101,6 +101,15 @@ local on_attach = function(client, bufnr)
   end
 end
 
+-- lsp formating
+require("lsp-format").setup {}
+
+local on_attach = function(client, bufnr)
+    require("lsp-format").on_attach(client, bufnr)
+
+end
+
+
 local servers = {'pyright', 'gopls', 'rust_analyzer', 'sqlls', 'tsserver', 'vimls', 'yamlls', 'omnisharp' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {

@@ -17,6 +17,9 @@ endif
 
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
+
+Plug 'davidgranstrom/nvim-markdown-preview'
+
 Plug 'BlackLight/nvim-http'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
@@ -941,7 +944,6 @@ let g:neomake_go_gometalinter_maker = {
   \ }
 
 "
-
 colorscheme nightfox
 " Vim-Script:
 "colorscheme dracula
@@ -1554,3 +1556,5 @@ nmap <silent> <leader>td :lua require('dap-go').debug_test()<CR>
 
 set nowrap
 
+nmap <cr> <plug>(nvim-markdown-preview)
+hi Visual  guifg=White guibg=LightBlue gui=none

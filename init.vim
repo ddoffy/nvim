@@ -19,6 +19,8 @@ call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
 
 Plug 'davidgranstrom/nvim-markdown-preview'
+Plug 'krady21/compiler-explorer.nvim'
+
 
 Plug 'BlackLight/nvim-http'
 Plug 'tpope/vim-fugitive'

@@ -20,6 +20,7 @@ call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 Plug 'lukas-reineke/lsp-format.nvim'
 
 
+Plug 'davidgranstrom/nvim-markdown-preview'
 Plug 'krady21/compiler-explorer.nvim'
 
 
@@ -947,7 +948,6 @@ let g:neomake_go_gometalinter_maker = {
   \ }
 
 "
-
 colorscheme nightfox
 " Vim-Script:
 "colorscheme dracula
@@ -1556,3 +1556,9 @@ nnoremap <silent> <leader>F :FormatWrite<CR>
 nmap <silent> <leader>td :lua require('dap-go').debug_test()<CR>
 
 "colorscheme catppuccin " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+
+
+set nowrap
+
+nmap <cr> <plug>(nvim-markdown-preview)
+hi Visual  guifg=White guibg=LightBlue gui=none

@@ -257,6 +257,8 @@ lspconfig.omnisharp.setup{
 -- set up dap go debuging 
 require('dap-go').setup()
 
+-- ~/.config/nvim/init.lua
+require('scamp').setup()
 
 
 

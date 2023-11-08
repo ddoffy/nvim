@@ -152,8 +152,13 @@ Plug 'vim-airline/vim-airline-themes'
 "Plug 'ervandew/supertab'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'puremourning/vimspector'
-Plug 'prettier/vim-prettier', { 'do': 'npm install' , 'branch' : 'release/1.x' }
 Plug 'dense-analysis/ale'
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'MunifTanjim/prettier.nvim'
+
+
 
 "Fuzzy Search
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }

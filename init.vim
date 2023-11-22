@@ -1565,3 +1565,5 @@ set nowrap
 
 nmap <cr> <plug>(nvim-markdown-preview)
 hi Visual  guifg=White guibg=LightBlue gui=none
+
+nmap <silent> <leader>/ :Commentary<CR>

@@ -1567,3 +1567,11 @@ set nowrap
 
 nmap <cr> <plug>(nvim-markdown-preview)
 hi Visual  guifg=White guibg=LightBlue gui=none
+
+
+" formatting in normal mode
+nmap <Leader>f <Plug>(prettier-format)
+
+" range_formatting in visual mode
+xmap <Leader>f <Plug>(prettier-format)
+

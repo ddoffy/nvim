@@ -35,3 +35,7 @@ prettier.setup({
     "yaml",
   },
 })
+
+
+
+require('mini.files').setup()

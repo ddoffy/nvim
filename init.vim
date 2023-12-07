@@ -17,6 +17,7 @@ endif
 
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
+Plug 'echasnovski/mini.nvim'
 
 Plug 'davidgranstrom/nvim-markdown-preview'
 Plug 'krady21/compiler-explorer.nvim'
@@ -1566,4 +1567,5 @@ set nowrap
 nmap <cr> <plug>(nvim-markdown-preview)
 hi Visual  guifg=White guibg=LightBlue gui=none
 
-nmap <silent> <leader>/ :Commentary<CR>
+
+xmap <c-/> <Plug>Commentary

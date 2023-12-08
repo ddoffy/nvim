@@ -260,3 +260,14 @@ require("scamp").setup()
 
 require("telescope").load_extension("yank_history")
 
+
+require("yanky").setup({
+  picker = {
+    select = {
+      action = nil, -- nil to use default put action
+    },
+    telescope = {
+      mappings = nil, -- nil to use default mappings
+    },
+  },
+})

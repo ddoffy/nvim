@@ -214,7 +214,7 @@ lspconfig.omnisharp.setup({
 		require("lsp-overloads").setup(client, {})
 	end,
 	use_mono = true,
-	cmd = { "dotnet", "/Users/doffy/omnisharp/OmniSharp.dll", "--languageserver", "--hostPID", tostring(pid) },
+	cmd = { "dotnet", "/home/doffy/omnisharp/OmniSharp.dll", "--languageserver", "--hostPID", tostring(pid) },
 
 	-- Enables support for reading code style, naming convention and analyzer
 	-- settings from .editorconfig.

@@ -1,16 +1,16 @@
 local home = os.getenv("HOME")
-local jdtls = require("jdtls")
+-- local jdtls = require("jdtls")
 
 -- File types that signify a Java project's root directory. This will be
 -- used by eclipse to determine what constitutes a workspace
 local root_markers = { "gradlew", "mvnw", ".git" }
-local root_dir = require("jdtls.setup").find_root(root_markers)
+-- local root_dir = require("jdtls.setup").find_root(root_markers)
 
 -- eclipse.jdt.ls stores project specific data within a folder. If you are working
 -- with multiple different projects, each project must use a dedicated data directory.
 -- This variable is used to configure eclipse to use the directory name of the
 -- current project found using the root_marker as the folder for project specific data.
-local workspace_folder = home .. "/.local/share/eclipse/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
+-- local workspace_folder = home .. "/.local/share/eclipse/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
 
 -- Helper function for creating keymaps
 function nnoremap(rhs, lhs, bufopts, desc)
@@ -137,44 +137,44 @@ local config = {
 	-- Note that eclipse.jdt.ls must be started with a Java version of 17 or higher
 	-- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
 	-- for the full list of options
-	cmd = {
-		"/opt/java-17-openjdk-17.0.9.0.9-1.portable.jdk.el.x86_64",
-		"-Declipse.application=org.eclipse.jdt.ls.core.id1",
-		"-Dosgi.bundles.defaultStartLevel=4",
-		"-Declipse.product=org.eclipse.jdt.ls.core.product",
-		"-Dlog.protocol=true",
-		"-Dlog.level=ALL",
-		"-Xmx4g",
-		"--add-modules=ALL-SYSTEM",
-		"--add-opens",
-		"java.base/java.util=ALL-UNNAMED",
-		"--add-opens",
-		"java.base/java.lang=ALL-UNNAMED",
-		-- If you use lombok, download the lombok jar and place it in ~/.local/share/eclipse
-		"-javaagent:"
-			.. home
-			.. "/home/doffy/eclipse/jee-2023-09/eclipse/plugins/lombok.jar",
-		-- The jar file is located where jdtls was installed. This will need to be updated
-		-- to the location where you installed jdtls
-		"-jar",
-		vim.fn.glob(
-			"/home/linuxbrew/.linuxbrew/Cellar/jdtls/1.29.0/libexec/plugins/org.eclipse.equinox.launcher_*.jar"
-		),
-
+	-- cmd = {
+	-- 	"/opt/java-17-openjdk-17.0.9.0.9-1.portable.jdk.el.x86_64",
+	-- 	"-Declipse.application=org.eclipse.jdt.ls.core.id1",
+	-- 	"-Dosgi.bundles.defaultStartLevel=4",
+	-- 	"-Declipse.product=org.eclipse.jdt.ls.core.product",
+	-- 	"-Dlog.protocol=true",
+	-- 	"-Dlog.level=ALL",
+	-- 	"-Xmx4g",
+	-- 	"--add-modules=ALL-SYSTEM",
+	-- 	"--add-opens",
+	-- 	"java.base/java.util=ALL-UNNAMED",
+	-- 	"--add-opens",
+	-- 	"java.base/java.lang=ALL-UNNAMED",
+	-- 	-- If you use lombok, download the lombok jar and place it in ~/.local/share/eclipse
+	-- 	"-javaagent:"
+	-- 		.. home
+	-- 		.. "/home/doffy/eclipse/jee-2023-09/eclipse/plugins/lombok.jar",
+	-- 	-- The jar file is located where jdtls was installed. This will need to be updated
+	-- 	-- to the location where you installed jdtls
+	-- 	"-jar",
+	-- 	vim.fn.glob(
+	-- 		"/home/linuxbrew/.linuxbrew/Cellar/jdtls/1.29.0/libexec/plugins/org.eclipse.equinox.launcher_*.jar"
+	-- 	),
+--
 		-- The configuration for jdtls is also placed where jdtls was installed. This will
 		-- need to be updated depending on your environment
-		"-configuration",
-		"/home/linuxbrew/.linuxbrew/Cellar/jdtls/1.29.0/libexec/config_linux",
+		-- "-configuration",
+		-- "/home/linuxbrew/.linuxbrew/Cellar/jdtls/1.29.0/libexec/config_linux",
 
 		-- Use the workspace_folder defined above to store data for this project
-		"-data",
-		workspace_folder,
-	},
+		-- "-data",
+		-- workspace_folder,
+	-- },
 }
 
 -- Finally, start jdtls. This will run the language server using the configuration we specified,
 -- setup the keymappings, and attach the LSP client to the current buffer
-jdtls.start_or_attach(config)
+-- jdtls.start_or_attach(config)
 
 local fn = vim.fn
 
@@ -251,7 +251,7 @@ return packer.startup(function(use)
 	use("williamboman/mason.nvim")
 
 	use("mfussenegger/nvim-dap")
-	use("mfussenegger/nvim-jdtls")
+	-- use("mfussenegger/nvim-jdtls")
 	use("nvim-lua/plenary.nvim")
 	use({
 		"numToStr/Comment.nvim",

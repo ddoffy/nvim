@@ -14,7 +14,7 @@ require("mason").setup({
     }
 })
 
-require('pde.java')
+-- require('pde.java')
 
 local prettier = require("prettier")
 

@@ -82,7 +82,7 @@ Plug 'neovim/nvim-lspconfig'
 
 " Telescope
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
 " Telescope settings {{{
 
 " Find files using Telescope command-line sugar.
@@ -1569,3 +1569,6 @@ hi Visual  guifg=White guibg=LightBlue gui=none
 
 
 xmap <c-/> <Plug>Commentary
+
+
+set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
